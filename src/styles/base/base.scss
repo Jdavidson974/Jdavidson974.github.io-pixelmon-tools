@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', sans-serif;
+}
+
+.primary {
+    background-color: #DB6371;
+    color: #FEFAFF;
+    font-weight: bold;
+}
+
+button {
+    width: 200px;
+    padding: 5px;
+    border-radius: 10px;
+    margin: 5px;
+    cursor: pointer;
+    border: none;
+}
+
+button:hover {
+    filter: brightness(85%);
+    -webkit-filter: brightness(85%);
+    -moz-filter: brightness(85%);
+    -o-filter: brightness(85%);
+    -ms-filter: brightness(85%);
+}
