@@ -1,1 +1,23 @@
-<p>bingo works!</p>
+<div class="bingoDiv">
+    <div class="bingoTitle">
+        <h1>Bingo tool</h1>
+    </div>
+    <div class="formBingo">
+        <div class="titleFormBingo">
+            <p>Past here the bingo poke list</p>
+            <textarea placeholder="Past here..."></textarea>
+            <button class="secondary" (click)="getBingoData()">Submit</button>
+        </div>
+    </div>
+    <div class="bingoZone">
+        <div class="bingo">
+            @for (item of bingoCase; track $index) {
+            <div class="bingoCase">
+                <div class="bingoCaseContent">
+                    {{bingoCase.length}}
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>
