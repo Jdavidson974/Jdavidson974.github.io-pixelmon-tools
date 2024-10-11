@@ -11,5 +11,5 @@ import { NavBarComponent } from "./nav-bar/nav-bar.component";
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'Jdavidson974.github.io-pixelmon-tools';
+  title = 'Pixelmon-tools';
 }
