@@ -1,23 +1,30 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { map, Observable, tap } from 'rxjs';
 import { BingoModel } from '../models/bingoData.model';
+import { Store } from '@ngrx/store';
+import { loadBingoData, removeBingoData } from '../../actions/bingo.action';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BingoService {
+  private http = inject(HttpClient);
 
-  constructor(private req: HttpClient,) { }
-  $bingoData !: Observable<BingoModel>;
-  getBingoData(pokelist: string[]) {
-    return this.req.post("https://pokeapi-blue.vercel.app/pokemons/bingo", pokelist).pipe(
+  constructor(private store: Store<{ bingoData: BingoModel }>) { }
+
+  getBingoData(pokelist: string[]): Observable<BingoModel> {
+    return this.http.post<BingoModel>("https://pokeapi-blue.vercel.app/pokemons/bingo", pokelist).pipe(
       tap(data => {
         if (data) {
-          // this.$bingoData = store
-
+          // Dispatch de l'action avec les données reçues
+          this.store.dispatch(loadBingoData({ pokeBingo: data.pokeBingo, count: data.count }));
         }
       })
-    ).subscribe();
+    );
+  }
+
+  clearBingoData() {
+    this.store.dispatch(removeBingoData());
   }
 }

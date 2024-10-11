@@ -1,23 +1,43 @@
+@if (bingoData$ | async ;as bingoData) {
 <div class="bingoDiv">
+    @if (!bingoData.count) {
     <div class="bingoTitle">
         <h1>Bingo tool</h1>
     </div>
     <div class="formBingo">
         <div class="titleFormBingo">
-            <p>Past here the bingo poke list</p>
-            <textarea placeholder="Past here..."></textarea>
+            <p>Paste here the bingo poke list</p>
+            <textarea placeholder="Paste here..."></textarea>
             <button class="secondary" (click)="getBingoData()">Submit</button>
         </div>
     </div>
+    }
+
     <div class="bingoZone">
-        <div class="bingo">
-            @for (item of bingoCase; track $index) {
-            <div class="bingoCase">
-                <div class="bingoCaseContent">
-                    {{bingoCase.length}}
+        @if (loading) {
+        <p class="spinner"></p> <!-- Affiche un message de chargement -->
+        <!-- Ou tu peux ajouter un spinner ici si tu en as un -->
+        } @else {
+        <div class="bingoContainer">
+
+            @if (bingoData.count) {
+            <div class="bingo">
+                <div class="bingoTitle">
+                    <h2>Bingo Grid</h2>
                 </div>
+
+                @for (pokemon of bingoData.pokeBingo; track $index) {
+                <div class="bingoCase">
+                    <div appCheckCase class="bingoCaseContent">
+                        <img [src]="pokemon.imgUrl" [alt]="pokemon.name">
+                    </div>
+                </div>
+                }
+                <button class="primary" (click)="deleteBingoData()">Remove</button>
             </div>
             }
         </div>
+        }
     </div>
 </div>
+}

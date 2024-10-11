@@ -45,7 +45,38 @@
 
 .bingoCaseContent {
     border-radius: 10px;
-    background-color: aqua;
     height: 100%;
+    border: 1px black solid;
+    cursor: pointer;
+
+    img {
+        height: 100%;
+
+    }
+}
+
+.bingoCaseContent:hover {
+    background-color: white;
+    filter: brightness(40%);
+}
+
+.bingoZone {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.bingoContainer {
+    width: 25%;
+}
+
+.bingoCaseChecked {
+    background-color: #76B383;
+}
+
+.bingoTitle {
+    margin-bottom: 5px;
     width: 100%;
 }

@@ -1,5 +1,5 @@
 export class BingoModel {
-    data!: [];
+    data!: PokemonInBiomeModel[];
     pokeBingo!: PokemonModel[];
     count!: number;
 }
