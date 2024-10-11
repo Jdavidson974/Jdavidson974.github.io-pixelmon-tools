@@ -5,38 +5,79 @@ import { BingoModel } from './models/bingoData.model';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
 import { CheckCaseDirective } from './directives/check-case.directive';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-bingo',
   standalone: true,
-  imports: [AsyncPipe, CheckCaseDirective],
+  imports: [AsyncPipe, CheckCaseDirective, FormsModule, ReactiveFormsModule],
   providers: [BingoService],
   templateUrl: './bingo.component.html',
   styleUrl: './bingo.component.scss'
 })
-export class BingoComponent {
+export class BingoComponent implements OnInit {
   bingoData$: Observable<BingoModel>;
   loading: boolean = false;
-  constructor(private bingoService: BingoService, private store: Store<{ bingoData: BingoModel }>) {
+  bingoForm !: FormGroup;
+  constructor(
+    private bingoService: BingoService,
+    private store: Store<{ bingoData: BingoModel }>,
+    private fb: FormBuilder
+  ) {
     this.bingoData$ = this.store.select('bingoData');
+  }
+  ngOnInit(): void {
+    this.bingoForm = this.fb.group({
+      pokelist: this.fb.control('', [Validators.required, this.customValidator])
+    })
   }
 
   getBingoData() {
-    const pokelist: string[] = ["Sawk Solosis Bergmite Roselia Graveler Cubchoo Caterpie Komala Clodsire Yanma Pupitar Metang Zigzagoon Phantump Slakoth Cufant Gligar Ursaring Boldore Sealeo Cascoon Quilava Klefki Corphish Minun"];
+    if (this.bingoForm.valid) {
 
-    this.loading = true; // Démarre le chargement
+      const pokelist: string[] = [this.bingoForm.get("pokelist")?.value];
 
-    this.bingoService.getBingoData(pokelist).subscribe({
-      next: () => {
-        this.loading = false; // Arrête le chargement lorsque les données sont reçues
-      },
-      error: () => {
-        this.loading = false; // Arrête le chargement en cas d'erreur
-      }
-    });
+      this.loading = true; // Démarre le chargement
+
+      this.bingoService.getBingoData(pokelist).subscribe({
+        next: () => {
+          this.loading = false; // Arrête le chargement lorsque les données sont reçues
+        },
+        error: () => {
+          this.loading = false; // Arrête le chargement en cas d'erreur
+        }
+      });
+    }
   }
 
   deleteBingoData() {
     this.bingoService.clearBingoData();
+  }
+
+  customValidator(control: AbstractControl): { [key: string]: any } | null {
+    // Exemple de validation : la valeur doit être 'correct'
+    try {
+
+      const pokelist = control.value;
+      const pokelistArray: string[] = pokelist.split(" ").map((el: string) => el.trim())
+      console.log("Pokelist : " + pokelistArray);
+      if (pokelistArray.length == 25) {
+        return null
+      } else {
+        return { invalidValue: true }
+      }
+    } catch (e) {
+      return { invalidValue: true }
+    }
+
+  }
+
+  checkValidity() {
+    const control = this.bingoForm.get('pokelist');
+    if (control?.errors?.['invalidValue'] && control?.valid) {
+      control.setErrors(null);
+    } else if (!control?.errors?.['invalidValue'] && control?.invalid) {
+      control.setErrors({ invalidValue: true });
+    }
   }
 }

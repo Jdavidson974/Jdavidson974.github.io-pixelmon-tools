@@ -5,10 +5,23 @@
         <h1>Bingo tool</h1>
     </div>
     <div class="formBingo">
-        <div class="titleFormBingo">
-            <p>Paste here the bingo poke list</p>
-            <textarea placeholder="Paste here..."></textarea>
-            <button class="secondary" (click)="getBingoData()">Submit</button>
+        <div [formGroup]="bingoForm" class="formBingo">
+            <p class="titleFormBingo">Paste here the bingo poke list : </p>
+            @if (bingoForm.get('pokelist')?.touched && bingoForm.get('pokelist')?.errors?.["invalidValue"]) {
+            <span class="msgError">
+                Please copy the text provided by the game exactly without modifying it and check that there is no space
+                at
+                the end of the string.
+            </span>
+            }
+            <textarea (input)="checkValidity()" formControlName="pokelist" placeholder="Paste here..."></textarea>
+            <div class="bingoSubmitZone">
+                @if (bingoForm.valid) {
+                <button class="secondary" (click)="getBingoData()">Submit</button>
+                } @else {
+                <button disabled class="secondary disabled">Submit</button>
+                }
+            </div>
         </div>
     </div>
     }

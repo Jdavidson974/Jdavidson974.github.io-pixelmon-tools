@@ -24,8 +24,18 @@
     }
 }
 
+.formBingo {
+    width: 100%;
+
+    .msgError {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+}
+
 .titleFormBingo {
     width: 100%;
+    margin-bottom: 5px;
 }
 
 .bingo {
@@ -78,5 +88,9 @@
 
 .bingoTitle {
     margin-bottom: 5px;
+    width: 100%;
+}
+
+.bingoSubmitZone {
     width: 100%;
 }
