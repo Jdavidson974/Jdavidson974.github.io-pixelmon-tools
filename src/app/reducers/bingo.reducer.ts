@@ -10,7 +10,8 @@ export const initialState: BingoModel = {
 
 export const bingoReducer = createReducer(
     initialState,
-    on(loadBingoData, (state, { pokeBingo, count }) => ({ ...state, pokeBingo, count })), // Gère l'action pour mettre à jour le state
+    on(loadBingoData, (state, { pokeBingo, count, data }) => ({ ...state, pokeBingo, count, data })), // Gère l'action pour mettre à jour le state
+
     on(removeBingoData, (state) => ({
         ...state,
         data: [],

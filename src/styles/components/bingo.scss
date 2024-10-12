@@ -94,3 +94,66 @@
 .bingoSubmitZone {
     width: 100%;
 }
+
+.bingoSearchZone {
+    width: 100%;
+}
+
+.biome-list {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.biome {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 5px;
+}
+
+.biomePokeList {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.pokeCard {
+    width: 20%;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.pokeCardContent {
+    border: solid 1px black;
+    border-radius: 5px;
+
+    p {
+        text-align: center;
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.numberPokemonOnBiome {
+    width: 100%;
+}
+
+.biomeName {
+    padding: 5px;
+    font-weight: bold;
+    font-style: italic;
+    text-decoration: underline;
+    font-size: large;
+
+}
+
+.numberPokemonOnBiome {
+    padding: 5px;
+}

@@ -48,6 +48,34 @@
                 }
                 <button class="primary" (click)="deleteBingoData()">Remove</button>
             </div>
+            <div class="separator">
+                <img src="assets/img/pokeball.png" alt="pokeball">
+                <img src="assets/img/pokeball.png" alt="pokeball">
+                <img src="assets/img/pokeball.png" alt="pokeball">
+            </div>
+            <div class="bingoSearchZone">
+                <div class="bingoTitle">
+                    <h2>Search Zone</h2>
+                </div>
+                <div class="biome-list">
+                    @for (biome of bingoData.data; track $index) {
+                    <div class="biome">
+                        <p class="biomeName">{{biome.name}}</p>
+                        <div class="biomePokeList">
+                            <p class="numberPokemonOnBiome">Number of pokemon in this biome : {{biome.pokeNumber}}</p>
+                            @for (pokemon of biome.pokeList; track $index) {
+                            <div class="pokeCard">
+                                <div appCheckCase class="pokeCardContent">
+                                    <p>{{pokemon.name}}</p>
+                                    <img [src]="pokemon.imgUrl" [alt]="pokemon.name">
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
             }
         </div>
         }

@@ -17,8 +17,10 @@ export class BingoService {
     return this.http.post<BingoModel>("https://pokeapi-blue.vercel.app/pokemons/bingo", pokelist).pipe(
       tap(data => {
         if (data) {
+          console.log(data);
+
           // Dispatch de l'action avec les données reçues
-          this.store.dispatch(loadBingoData({ pokeBingo: data.pokeBingo, count: data.count }));
+          this.store.dispatch(loadBingoData(data));
         }
       })
     );
