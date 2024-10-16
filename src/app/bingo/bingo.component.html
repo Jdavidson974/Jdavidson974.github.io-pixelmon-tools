@@ -41,7 +41,8 @@
 
                 @for (pokemon of bingoData.pokeBingo; track $index) {
                 <div class="bingoCase">
-                    <div appCheckCase class="bingoCaseContent">
+                    <div appCheckCase [pokemon]="pokemon" class="bingoCaseContent"
+                        [ngClass]="{'bingoCaseChecked': pokemon.checked}">
                         <img [src]="pokemon.imgUrl" [alt]="pokemon.name">
                     </div>
                 </div>
@@ -65,7 +66,8 @@
                             <p class="numberPokemonOnBiome">Number of pokemon in this biome : {{biome.pokeNumber}}</p>
                             @for (pokemon of biome.pokeList; track $index) {
                             <div class="pokeCard">
-                                <div appCheckCase class="pokeCardContent">
+                                <div class="pokeCardContent" [pokemon]="pokemon" appCheckCase
+                                    [ngClass]="{'bingoCaseChecked': pokemon.checked}">
                                     <p>{{pokemon.name}}</p>
                                     <img [src]="pokemon.imgUrl" [alt]="pokemon.name">
                                 </div>

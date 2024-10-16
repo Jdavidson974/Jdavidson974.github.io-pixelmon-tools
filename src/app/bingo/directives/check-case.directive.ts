@@ -1,4 +1,6 @@
-import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/core';
+import { PokemonModel } from '../models/bingoData.model';
+import { BingoService } from '../services/bingo.service';
 
 @Directive({
   selector: '[appCheckCase]',
@@ -6,16 +8,10 @@ import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
 })
 export class CheckCaseDirective {
 
-  constructor(private el: ElementRef, private renderer: Renderer2) { }
-  isChecked: boolean = false;
+  @Input() pokemon !: PokemonModel;
+  constructor(private el: ElementRef, private renderer: Renderer2, private bingoService: BingoService) { }
   @HostListener('click', ['$event'])
   toggleCheckCase() {
-    this.isChecked = !this.isChecked
-    if (this.isChecked) {
-      this.renderer.addClass(this.el.nativeElement, "bingoCaseChecked")
-    } else {
-      this.renderer.removeClass(this.el.nativeElement, "bingoCaseChecked")
-    }
-    console.log(this.el.nativeElement);
+    this.bingoService.CheckOrUncheckValue(this.pokemon.id)
   }
 }

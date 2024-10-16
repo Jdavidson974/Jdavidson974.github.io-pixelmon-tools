@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { BingoService } from './services/bingo.service';
-import { Observable, of, tap } from 'rxjs';
+import { delay, Observable, of, tap, timeout } from 'rxjs';
 import { BingoModel } from './models/bingoData.model';
 import { Store } from '@ngrx/store';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { CheckCaseDirective } from './directives/check-case.directive';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-bingo',
   standalone: true,
-  imports: [AsyncPipe, CheckCaseDirective, FormsModule, ReactiveFormsModule],
+  imports: [AsyncPipe, CheckCaseDirective, FormsModule, ReactiveFormsModule, CommonModule],
   providers: [BingoService],
   templateUrl: './bingo.component.html',
   styleUrl: './bingo.component.scss'
@@ -60,7 +60,6 @@ export class BingoComponent implements OnInit {
 
       const pokelist = control.value;
       const pokelistArray: string[] = pokelist.split(" ").map((el: string) => el.trim())
-      console.log("Pokelist : " + pokelistArray);
       if (pokelistArray.length == 25) {
         return null
       } else {

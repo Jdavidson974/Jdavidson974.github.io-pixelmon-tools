@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
 import { BingoModel } from '../models/bingoData.model';
 import { Store } from '@ngrx/store';
-import { loadBingoData, removeBingoData } from '../../actions/bingo.action';
+import { loadBingoData, removeBingoData, togglePokemonCheck } from '../../actions/bingo.action';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,6 @@ export class BingoService {
     return this.http.post<BingoModel>("https://pokeapi-blue.vercel.app/pokemons/bingo", pokelist).pipe(
       tap(data => {
         if (data) {
-          console.log(data);
-
           // Dispatch de l'action avec les données reçues
           this.store.dispatch(loadBingoData(data));
         }
@@ -28,5 +26,8 @@ export class BingoService {
 
   clearBingoData() {
     this.store.dispatch(removeBingoData());
+  }
+  CheckOrUncheckValue(pokeId: number) {
+    this.store.dispatch(togglePokemonCheck({ pokemonId: pokeId }));
   }
 }

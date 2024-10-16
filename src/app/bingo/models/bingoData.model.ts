@@ -9,6 +9,7 @@ export class PokemonModel {
     name!: string;
     idDex?: number;
     imgUrl!: string;
+    checked!: boolean
 }
 
 export class PokemonInBiomeModel {

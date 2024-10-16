@@ -7,3 +7,7 @@ export const loadBingoData = createAction(
 );
 
 export const removeBingoData = createAction('[Bingo] Remove Bingo Data');
+export const togglePokemonCheck = createAction(
+    '[Bingo] Toggle Pokemon Check',
+    props<{ pokemonId: number }>()
+);
