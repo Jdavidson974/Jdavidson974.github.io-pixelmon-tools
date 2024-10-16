@@ -1,0 +1,11 @@
+<div class="timer">
+
+    <div class="icon-timer">
+        <img src="assets/img/hourglass.gif" alt="Timer">
+    </div>
+    @if (elapsedTime == "00:00:00") {
+    <p class="spinner"></p>
+    }@else {
+    <p>{{ elapsedTime }}</p>
+    }
+</div>

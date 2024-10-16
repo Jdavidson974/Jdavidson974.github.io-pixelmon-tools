@@ -6,11 +6,12 @@ import { Store } from '@ngrx/store';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { CheckCaseDirective } from './directives/check-case.directive';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TimerComponent } from "../timer/timer.component";
 
 @Component({
   selector: 'app-bingo',
   standalone: true,
-  imports: [AsyncPipe, CheckCaseDirective, FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [AsyncPipe, CheckCaseDirective, FormsModule, ReactiveFormsModule, CommonModule, TimerComponent],
   providers: [BingoService],
   templateUrl: './bingo.component.html',
   styleUrl: './bingo.component.scss'
@@ -52,6 +53,7 @@ export class BingoComponent implements OnInit {
 
   deleteBingoData() {
     this.bingoService.clearBingoData();
+    localStorage.removeItem("bingoStartTime");
   }
 
   customValidator(control: AbstractControl): { [key: string]: any } | null {

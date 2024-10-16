@@ -157,3 +157,38 @@
 .numberPokemonOnBiome {
     padding: 5px;
 }
+
+.timer {
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    height: 50px;
+    left: 80%;
+    width: 200px;
+    position: fixed;
+    border-radius: 10px;
+
+    .icon-timer {
+        width: 30%;
+
+        img {
+            height: 100%;
+        }
+    }
+
+    p {
+        width: 70%;
+        align-self: center;
+        font-size: xx-large;
+        font-weight: bold;
+    }
+    p.spinner{
+        width: 20%;
+        align-self: center;
+        font-size: xx-large;
+        font-weight: bold;
+    }
+
+
+}
