@@ -12,22 +12,20 @@ export class TimerComponent implements OnInit, OnDestroy {
   startTime!: number;
   timerSubscription!: Subscription;
   elapsedTime: string = '00:00:00';
+  hoursToExpire: number = 6
 
   ngOnInit(): void {
+
     // Récupérer le timestamp de départ du localStorage
     const storedStartTime = localStorage.getItem('bingoStartTime');
 
     if (storedStartTime) {
       // Si un timestamp est trouvé, on l'utilise pour calculer le temps écoulé
-      this.startTime = parseInt(storedStartTime, 10);
+      this.timerReinitialisation(storedStartTime);
     } else {
       // Sinon, initialiser le timestamp actuel
-      this.startTime = Date.now();
-      localStorage.setItem('bingoStartTime', this.startTime.toString());
+      this.initTimerNowAndStart()
     }
-
-    // Démarrer le minuteur
-    this.startTimer();
   }
 
   ngOnDestroy(): void {
@@ -39,6 +37,11 @@ export class TimerComponent implements OnInit, OnDestroy {
     }
   }
 
+  initTimerNowAndStart() {
+    this.startTime = Date.now();
+    localStorage.setItem('bingoStartTime', this.startTime.toString());
+    this.startTimer();
+  }
   startTimer(): void {
     // Met à jour le minuteur toutes les secondes
     this.timerSubscription = interval(1000).subscribe(() => {
@@ -57,4 +60,30 @@ export class TimerComponent implements OnInit, OnDestroy {
     const pad = (num: number) => (num < 10 ? '0' + num : num);
     return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
   }
+
+  timerReinitialisation(latestTimer: string) {
+    const latestBingoTimer = new Date(parseInt(latestTimer))
+    if (this.expiredTime(latestBingoTimer)) {
+      this.initTimerNowAndStart()
+    } else {
+      this.startTime = parseInt(latestTimer);
+      this.startTimer()
+    }
+  }
+
+  expiredTime(latestBingoTimer: Date) {
+    const now = Date.now();
+    const differenceInMs = now - latestBingoTimer.getTime();
+
+    // Conversion des millisecondes en heures, minutes, secondes
+    const hours = Math.floor(differenceInMs / (1000 * 60 * 60));
+    const minutes = Math.floor((differenceInMs % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((differenceInMs % (1000 * 60)) / 1000);
+
+    if (hours >= this.hoursToExpire) {
+      return true
+    }
+    return false
+  }
 }
+

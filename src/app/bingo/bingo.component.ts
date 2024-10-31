@@ -52,7 +52,6 @@ export class BingoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.correctionTab);
     this.bingoForm = this.fb.group({
       pokelist: this.fb.control('', [Validators.required, this.createCustomValidator(this.correctionTab)])
     });
