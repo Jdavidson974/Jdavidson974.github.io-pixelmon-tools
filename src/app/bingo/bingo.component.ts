@@ -5,7 +5,7 @@ import { BingoModel } from './models/bingoData.model';
 import { Store } from '@ngrx/store';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { CheckCaseDirective } from './directives/check-case.directive';
-import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { TimerComponent } from "../timer/timer.component";
 
 @Component({
@@ -20,7 +20,29 @@ export class BingoComponent implements OnInit {
   bingoData$: Observable<BingoModel>;
   loading: boolean = false;
   bingoForm!: FormGroup;
-
+  correctionTab: { string1: string; string2: string }[] = [
+    { string1: "Slither", string2: "Wing" },
+    { string1: "Iron", string2: "Fist" },
+    { string1: "Iron", string2: "Valiant" },
+    { string1: "Iron", string2: "Thorn" },
+    { string1: "Iron", string2: "Treads" },
+    { string1: "Iron", string2: "Bundle" },
+    { string1: "Iron", string2: "Hands" },
+    { string1: "Iron", string2: "Jugulis" },
+    { string1: "Iron", string2: "Moth" },
+    { string1: "Iron", string2: "Leaves" },
+    { string1: "Iron", string2: "Boulder" },
+    { string1: "Iron", string2: "Crown" },
+    { string1: "Raging", string2: "Bolt" },
+    { string1: "Great", string2: "Tusk" },
+    { string1: "Scream", string2: "Tail" },
+    { string1: "Brute", string2: "Bonnet" },
+    { string1: "Flutter", string2: "Mane" },
+    { string1: "Sandy", string2: "Shocks" },
+    { string1: "Roaring", string2: "Moon" },
+    { string1: "Walking", string2: "Wake" },
+    { string1: "Gouging", string2: "Fire" },
+  ];
   constructor(
     private bingoService: BingoService,
     private store: Store<{ bingoData: BingoModel }>,
@@ -30,8 +52,9 @@ export class BingoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.correctionTab);
     this.bingoForm = this.fb.group({
-      pokelist: this.fb.control('', [Validators.required, this.customValidator])
+      pokelist: this.fb.control('', [Validators.required, this.createCustomValidator(this.correctionTab)])
     });
 
     // Écoute les changements de valeur sur le contrôle 'pokelist'
@@ -65,49 +88,35 @@ export class BingoComponent implements OnInit {
     localStorage.removeItem("bingoStartTime");
   }
 
-  customValidator(control: AbstractControl): { [key: string]: any } | null {
-    const correctionTab: { string1: string; string2: string }[] = [
-      { string1: "Slither", string2: "Wing" },
-      { string1: "Iron", string2: "Fist" },
-      { string1: "Iron", string2: "Valiant" },
-    ];
+  createCustomValidator(correctionTab: { string1: string; string2: string }[]) {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const pokelist = control.value;
+      const pokelistArray: string[] = pokelist.split(" ").map((el: string) => el.trim());
 
-    const pokelist = control.value;
-    const pokelistArray: string[] = pokelist.split(" ").map((el: string) => el.trim());
+      const correctedList = [];
+      for (let i = 0; i < pokelistArray.length; i++) {
+        const current = pokelistArray[i];
+        const next = pokelistArray[i + 1] || ""; // Prochain élément s'il existe
 
-    // Vérification des corrections sans modifier le contrôle
-    const correctedList = [];
-    for (let i = 0; i < pokelistArray.length; i++) {
-      const current = pokelistArray[i];
-      const next = pokelistArray[i + 1] || ""; // Prochain élément s'il existe
+        const correction = correctionTab.find(c => c.string1 === current && c.string2 === next);
 
-      // Trouve une correspondance dans le tableau de correction
-      const correction = correctionTab.find(c => c.string1 === current && c.string2 === next);
-
-      if (correction) {
-        correctedList.push(`${correction.string1}-${correction.string2}`);
-        i++; // Incrémente pour ignorer le prochain élément
-      } else {
-        correctedList.push(current);
+        if (correction) {
+          correctedList.push(`${correction.string1}-${correction.string2}`);
+          i++; // Incrémente pour ignorer le prochain élément
+        } else {
+          correctedList.push(current);
+        }
       }
-    }
 
-    // Vérification si la longueur est correcte
-    if (correctedList.length === 25) {
-      return null; // Validité
-    }
-
-    return { invalidValue: true }; // Erreur de validation si la longueur n'est pas correcte
+      if (correctedList.length === 25) {
+        return null;
+      }
+      return { invalidValue: true };
+    };
   }
 
+  //Permets de transformer les valeurs du formulaire par les valeur des pokemon paradox trouver avec un "-"
   transformPokelist(pokelist: string): string {
-    //Ajouter ici les cas ou le jeu envoie 2 sting pour 1 pokemon
-    const correctionTab: { string1: string; string2: string }[] = [
-      { string1: "Slither", string2: "Wing" },
-      { string1: "Iron", string2: "Hands" },
-      { string1: "Iron", string2: "Valiant" }
-    ];
-
     const pokelistArray: string[] = pokelist.split(" ").map((el: string) => el.trim());
 
     const correctedList = [];
@@ -116,7 +125,7 @@ export class BingoComponent implements OnInit {
       const next = pokelistArray[i + 1] || ""; // Prochain élément s'il existe
 
       // Trouve une correspondance dans le tableau de correction
-      const correction = correctionTab.find(c => c.string1 === current && c.string2 === next);
+      const correction = this.correctionTab.find(c => c.string1 === current && c.string2 === next);
 
       if (correction) {
         correctedList.push(`${correction.string1}-${correction.string2}`);
