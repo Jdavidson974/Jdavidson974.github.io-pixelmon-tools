@@ -179,6 +179,7 @@
 
         img {
             height: 100%;
+            border-radius: 100%;
         }
     }
 
@@ -189,7 +190,7 @@
         font-weight: bold;
     }
     p.spinner{
-        width: 20%;
+        width: 21%;
         align-self: center;
         font-size: xx-large;
         font-weight: bold;
