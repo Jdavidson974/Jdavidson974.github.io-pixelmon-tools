@@ -12,9 +12,6 @@ export class ScrollTopDirective {
   toggleVisibility(event: Event) {
     const scrollPosition = window.scrollY || document.documentElement.scrollTop;
     if (scrollPosition >= 800) {
-      console.log("toto");
-      console.log(this.el.nativeElement);
-
       this.renderer2.removeClass(this.el.nativeElement, "hide");
     } else {
 

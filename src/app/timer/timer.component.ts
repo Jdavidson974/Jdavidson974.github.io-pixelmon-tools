@@ -29,8 +29,6 @@ export class TimerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log("destroy");
-
     // Nettoyer la souscription lorsque le composant est détruit
     if (this.timerSubscription) {
       this.timerSubscription.unsubscribe();
