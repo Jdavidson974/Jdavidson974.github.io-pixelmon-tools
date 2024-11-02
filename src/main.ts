@@ -5,11 +5,12 @@ import { AppComponent } from './app/app.component';
 import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 import { provideHttpClient } from '@angular/common/http';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 const appConfig = {
-  providers: [
-    provideStore({ bingoData: bingoReducer }), // Configure le store ici
-    provideRouter(routes),
-    provideHttpClient()
+  providers: [provideAnimationsAsync(),
+  provideStore({ bingoData: bingoReducer }), // Configure le store ici
+  provideRouter(routes),
+  provideHttpClient(),
     // Autres providers si nécessaire
   ],
 };

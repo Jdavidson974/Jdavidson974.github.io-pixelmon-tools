@@ -7,16 +7,19 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { CheckCaseDirective } from './directives/check-case.directive';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { TimerComponent } from "../timer/timer.component";
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-bingo',
   standalone: true,
-  imports: [AsyncPipe, CheckCaseDirective, FormsModule, ReactiveFormsModule, CommonModule, TimerComponent],
-  providers: [BingoService],
+  imports: [AsyncPipe, CheckCaseDirective, FormsModule, ReactiveFormsModule, CommonModule, TimerComponent, ToastModule],
+  providers: [BingoService, MessageService],
   templateUrl: './bingo.component.html',
   styleUrls: ['./bingo.component.scss']
 })
 export class BingoComponent implements OnInit {
+
   bingoData$: Observable<BingoModel>;
   loading: boolean = false;
   bingoForm!: FormGroup;
@@ -46,7 +49,8 @@ export class BingoComponent implements OnInit {
   constructor(
     private bingoService: BingoService,
     private store: Store<{ bingoData: BingoModel }>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private msgService: MessageService,
   ) {
     this.bingoData$ = this.store.select('bingoData');
   }
@@ -144,5 +148,10 @@ export class BingoComponent implements OnInit {
     } else if (!control?.errors?.['invalidValue'] && control?.invalid) {
       control.setErrors({ invalidValue: true });
     }
+  }
+
+  copyToClipboard(cmd: string) {
+    navigator.clipboard.writeText(cmd);
+    this.msgService.add({ severity: 'success', summary: 'Success', detail: `command : ${cmd} was successfully copied to the clipboard` });
   }
 }

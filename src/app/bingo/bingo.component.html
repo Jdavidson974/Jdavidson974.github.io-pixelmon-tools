@@ -62,7 +62,12 @@
                 <div class="biome-list">
                     @for (biome of bingoData.data; track $index) {
                     <div class="biome">
-                        <p class="biomeName">{{biome.name}}</p>
+                        <div class="bloc-name-cmd">
+                            <p class="biomeName">{{biome.name}}</p>
+                            <button class="primary" (click)="copyToClipboard('/warp jungle')">
+                                Copy {{biome.name}} warp cmd
+                            </button>
+                        </div>
                         <div class="biomePokeList">
                             <p class="numberPokemonOnBiome">Number of pokemon in this biome : {{biome.pokeNumber}}</p>
                             @for (pokemon of biome.pokeList; track $index) {
@@ -85,3 +90,10 @@
     </div>
 </div>
 }
+<p-toast>
+    <ng-template let-message pTemplate="message">
+        <div class="msg-toast">
+            {{ message.detail }}
+        </div>
+    </ng-template>
+</p-toast>
