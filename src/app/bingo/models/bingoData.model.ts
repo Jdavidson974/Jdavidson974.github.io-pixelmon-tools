@@ -16,5 +16,5 @@ export class PokemonInBiomeModel {
     name!: string;
     pokeList!: PokemonModel[];
     pokeNumber!: string;
-    command !: string
+    commande !: string
 }
