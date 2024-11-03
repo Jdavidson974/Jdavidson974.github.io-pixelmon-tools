@@ -27,7 +27,7 @@ export class BingoComponent implements OnInit {
     { string1: "Slither", string2: "Wing" },
     { string1: "Iron", string2: "Fist" },
     { string1: "Iron", string2: "Valiant" },
-    { string1: "Iron", string2: "Thorn" },
+    { string1: "Iron", string2: "Thorns" },
     { string1: "Iron", string2: "Treads" },
     { string1: "Iron", string2: "Bundle" },
     { string1: "Iron", string2: "Hands" },
